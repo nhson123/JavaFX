@@ -1,11 +1,9 @@
 package sample;
 
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -36,7 +34,54 @@ public class GridBox {
         choiceBox.getItems().add("Peace");
         choiceBox.getItems().add("Melone");
         choiceBox.setValue("Melone");
+        ListView listView = new ListView();
+        listView.getItems().addAll(
+                "Vietnam",
+                "Korea",
+                "Japan"
+        );
+        listView.setPrefHeight(100);
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        ObservableList<String> selectedItems = listView.getSelectionModel().getSelectedItems();
+        Label label = new Label("Gender");
+        ComboBox<String> comboBox = new ComboBox<String>();
+        comboBox.setPromptText("Gender");
+        comboBox.getItems().addAll(
+                "Mänder",
+                "Frauen",
+                "Kinder"
+        );
+        comboBox.setOnAction(e -> {
+            label.setText(comboBox.getValue());
+            System.out.println(comboBox.getValue());
+        });
+        comboBox.setEditable(true);
 
+
+        button5.setOnAction(e -> button5.setText(getChoiceBox(choiceBox)));
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            button4.setText(oldValue);
+            button3.setText(newValue);
+        });
+
+
+        TreeItem<String> root, Oberschef, Chef1, Chef2, Underchef;
+        root = new TreeItem<String>();
+        root.setExpanded(true);
+        TreeView<String> treeView = new TreeView<>(root);
+        treeView.setPrefHeight(100);
+        treeView.setShowRoot(false);
+        Oberschef = makeTreeItem("Oberschef", root);
+        Chef1 = makeTreeItem("Chef1", Oberschef);
+        Chef2 = makeTreeItem("Chef2", Oberschef);
+        Underchef = makeTreeItem("Unterchef", Chef1);
+        treeView.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            if (oldValue != null && newValue != null) {
+                label.setText(oldValue.getValue() + " -> " + newValue.getValue());
+            } else if (oldValue == null && newValue != null) {
+                label.setText(" -> " + newValue.getValue());
+            }
+        });
 
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
@@ -51,12 +96,36 @@ public class GridBox {
         GridPane.setConstraints(checkBoxYes, 0, 6);
         GridPane.setConstraints(checkBoxNo, 1, 6);
         GridPane.setConstraints(choiceBox, 0, 7);
-
+        GridPane.setConstraints(comboBox, 1, 7);
+        GridPane.setConstraints(label, 2, 7);
+        GridPane.setConstraints(listView, 0, 8);
+        GridPane.setConstraints(treeView, 1, 8);
         gridPane.getChildren().addAll(
-                button1, button2, button3, button4, button5,textField, checkBoxNo,checkBoxYes,
-                choiceBox);
-        Scene scene = new Scene(gridPane, 650, 650);
+                button1, button2, button3, button4, button5, textField, checkBoxNo, checkBoxYes,
+                choiceBox, comboBox, label, listView, treeView);
+        GridPane.setConstraints(label, 2, 7);
+
+
+        button4.setOnAction(e -> {
+            for (String item : selectedItems) {
+                System.out.println(item);
+            }
+
+            System.out.println(treeView.getSelectionModel().getSelectedItem().getValue());
+        });
+        Scene scene = new Scene(gridPane, 1000, 650);
         window.setScene(scene);
         window.showAndWait();
+    }
+
+    private static TreeItem<String> makeTreeItem(String name, TreeItem<String> parent) {
+        TreeItem<String> item = new TreeItem<>(name);
+        item.setExpanded(true);
+        parent.getChildren().add(item);
+        return item;
+    }
+
+    private static String getChoiceBox(ChoiceBox<String> choiceBox) {
+        return choiceBox.getValue();
     }
 }
