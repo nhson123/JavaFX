@@ -19,6 +19,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Button button3;
     Button button4;
     Button button5;
+    Button button6;
+    Button button7;
+    Button button8;
     Stage window;
     Scene scene;
     Scene scene2;
@@ -72,7 +75,26 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         button5.setOnAction(e -> {
             GridBox.display("GridBox", "GridBox");
         });
+        button6 = new Button();
+        button6.setText("show TableView!");
+        button6.setOnAction(e -> {
+            TableViewBox table = new TableViewBox();
+            table.display("TableBox", "TableViewBox");
+        });
 
+        button7 = new Button();
+        button7.setText("show EditTableView!");
+        button7.setOnAction(e -> {
+            TabelEditableBox table = new TabelEditableBox();
+            table.display("EditableTableBox", "editable TableViewBox");
+        });
+
+        button8 = new Button();
+        button8.setText("show Menubar!");
+        button8.setOnAction(e -> {
+            MenuBox menuBoxm = new MenuBox();
+            menuBoxm.display("Menubar Box", "Menubar");
+        });
         VBox layout = new VBox(20);
         layout.getChildren().add(button);
         layout.getChildren().add(button1);
@@ -80,6 +102,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         layout.getChildren().add(button3);
         layout.getChildren().add(button4);
         layout.getChildren().add(button5);
+        layout.getChildren().add(button6);
+        layout.getChildren().add(button7);
+        layout.getChildren().add(button8);
 
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(button2);
