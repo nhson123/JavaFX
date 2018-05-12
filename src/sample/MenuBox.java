@@ -3,10 +3,19 @@ package sample;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Package: sample
@@ -14,25 +23,59 @@ import javafx.stage.Stage;
  * Generated at: 12.05.2018 2018
  */
 public class MenuBox {
-    public static void display(String title, String message){
+    public static void display(String title, String message) {
         Stage window = new Stage();
         Label label1 = new Label();
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setMaxWidth(400);
+        window.setMaxWidth(800);
         label1.setText(message);
 
         //FileMenu
         Menu fileMenu = new Menu("File");
         Menu editMenu = new Menu("Edit");
+        Menu helpMenu = new Menu("Help");
+        Menu difficulty = new Menu("Difficulty Menu");
         //FileMenu Item
-        fileMenu.getItems().add(new MenuItem("New project..."));
-        fileMenu.getItems().add(new MenuItem("Open project..."));
+        MenuItem newProject = new MenuItem("New project...");
+        newProject.setOnAction(e -> {
+            try {
+                Desktop.getDesktop().open(new File("C:/ProgramData"));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        fileMenu.getItems().add(newProject);
+        MenuItem openProject = new MenuItem("Open project...");
+        fileMenu.getItems().add(openProject);
         fileMenu.getItems().add(new MenuItem("Import project..."));
+        fileMenu.getItems().add(new SeparatorMenuItem());
+        MenuItem exit = new MenuItem("Exit");
+        fileMenu.getItems().add(exit);
+        exit.setDisable(true);
 
-        // Main Menu bar
+        // Help MENU
+        CheckMenuItem F1 = new CheckMenuItem("F1 for help");
+        F1.setOnAction(e -> {
+
+        });
+        CheckMenuItem autoSave = new CheckMenuItem("auto save");
+        autoSave.setSelected(true);
+        helpMenu.getItems().addAll(F1, autoSave);
+
+        //difficulty Menu
+        ToggleGroup difficultyToggle = new ToggleGroup();
+        RadioMenuItem easy = new RadioMenuItem("Easy");
+        RadioMenuItem medium = new RadioMenuItem("Medium");
+        RadioMenuItem hard = new RadioMenuItem("Hard");
+        easy.setToggleGroup(difficultyToggle);
+        medium.setToggleGroup(difficultyToggle);
+        hard.setToggleGroup(difficultyToggle);
+        difficulty.getItems().addAll(easy,medium,hard);
+
+
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(fileMenu, editMenu);
+        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu, difficulty);
 
 
         Button closeButton = new Button("close!");
@@ -42,7 +85,7 @@ public class MenuBox {
         layout.setTop(menuBar);
 
 
-        Scene scene = new Scene(layout,250,350);
+        Scene scene = new Scene(layout, 250, 350);
         window.setScene(scene);
         window.showAndWait();
     }
