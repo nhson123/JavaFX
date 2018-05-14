@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,12 +31,13 @@ public class MenuBox {
         window.setTitle(title);
         window.setMaxWidth(800);
         label1.setText(message);
+        label1.getStylesheets().add("Viper.css");
 
         //FileMenu
         Menu fileMenu = new Menu("File");
         Menu editMenu = new Menu("Edit");
         Menu helpMenu = new Menu("Help");
-        Menu difficulty = new Menu("Difficulty Menu");
+        Menu styleSheet = new Menu("Stylesheet");
         //FileMenu Item
         MenuItem newProject = new MenuItem("New project...");
         newProject.setOnAction(e -> {
@@ -65,27 +67,40 @@ public class MenuBox {
 
         //difficulty Menu
         ToggleGroup difficultyToggle = new ToggleGroup();
-        RadioMenuItem easy = new RadioMenuItem("Easy");
-        RadioMenuItem medium = new RadioMenuItem("Medium");
-        RadioMenuItem hard = new RadioMenuItem("Hard");
-        easy.setToggleGroup(difficultyToggle);
-        medium.setToggleGroup(difficultyToggle);
-        hard.setToggleGroup(difficultyToggle);
-        difficulty.getItems().addAll(easy,medium,hard);
+        RadioMenuItem defaultStyle = new RadioMenuItem("default");
+        RadioMenuItem modena = new RadioMenuItem("Modena");
+        modena.setOnAction(e -> {
+            Application.setUserAgentStylesheet(Application.STYLESHEET_MODENA);
+        });
+        RadioMenuItem caspian = new RadioMenuItem("Caspian");
+        caspian.setOnAction(e -> {
+            Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
+        });
+        defaultStyle.setToggleGroup(difficultyToggle);
+        modena.setToggleGroup(difficultyToggle);
+        caspian.setToggleGroup(difficultyToggle);
+        styleSheet.getItems().addAll(defaultStyle,modena,caspian);
 
 
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu, difficulty);
+        menuBar.getMenus().addAll(fileMenu, editMenu, helpMenu, styleSheet);
 
 
-        Button closeButton = new Button("close!");
-        closeButton.setOnAction(e -> window.close());
+        Button closeButton = new Button("Look anf Feel!");
+        closeButton.setOnAction(e -> {
+           Application.setUserAgentStylesheet(Application.STYLESHEET_CASPIAN);
+        });
+
+        VBox center = new VBox();
+        center.getChildren().addAll(label1,closeButton);
 
         BorderPane layout = new BorderPane();
         layout.setTop(menuBar);
+        layout.setCenter(center);
 
 
-        Scene scene = new Scene(layout, 250, 350);
+        Scene scene = new Scene(layout, 650, 350);
+        scene.getStylesheets().addAll("Viper.css");
         window.setScene(scene);
         window.showAndWait();
     }

@@ -1,0 +1,13 @@
+.root{
+-fx-background-color: aliceblue;
+-fx-font-size: 12pt;
+}
+.label{
+-fx-text-fill: black;
+-fx-font-size: 14;
+}
+.button{
+-fx-background-color: red;
+-fx-text-fill: #FFFFFF;
+-fx-background-radius: 6;
+}

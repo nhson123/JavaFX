@@ -26,6 +26,7 @@ public class GridBox {
         Button button4 = new Button("Button4");
         Button button5 = new Button("Button5");
         TextField textField = new TextField();
+        Label labelInput = new Label();
         CheckBox checkBoxYes = new CheckBox("Yes");
         CheckBox checkBoxNo = new CheckBox("No");
         checkBoxNo.setSelected(true);
@@ -93,6 +94,7 @@ public class GridBox {
         GridPane.setConstraints(button4, 3, 3);
         GridPane.setConstraints(button5, 0, 4);
         GridPane.setConstraints(textField, 0, 5);
+        GridPane.setConstraints(labelInput, 1, 5);
         GridPane.setConstraints(checkBoxYes, 0, 6);
         GridPane.setConstraints(checkBoxNo, 1, 6);
         GridPane.setConstraints(choiceBox, 0, 7);
@@ -101,7 +103,7 @@ public class GridBox {
         GridPane.setConstraints(listView, 0, 8);
         GridPane.setConstraints(treeView, 1, 8);
         gridPane.getChildren().addAll(
-                button1, button2, button3, button4, button5, textField, checkBoxNo, checkBoxYes,
+                button1, button2, button3, button4, button5, textField, labelInput, checkBoxNo, checkBoxYes,
                 choiceBox, comboBox, label, listView, treeView);
         GridPane.setConstraints(label, 2, 7);
 
@@ -113,6 +115,9 @@ public class GridBox {
 
             System.out.println(treeView.getSelectionModel().getSelectedItem().getValue());
         });
+
+        //Bind Label
+        labelInput.textProperty().bind(textField.textProperty());
         Scene scene = new Scene(gridPane, 1000, 650);
         window.setScene(scene);
         window.showAndWait();

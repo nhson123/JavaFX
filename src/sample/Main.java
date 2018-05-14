@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,6 +23,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
     Button button6;
     Button button7;
     Button button8;
+    Button button9;
+    Label label;
     Stage window;
     Scene scene;
     Scene scene2;
@@ -95,6 +98,18 @@ public class Main extends Application implements EventHandler<ActionEvent> {
             MenuBox menuBoxm = new MenuBox();
             menuBoxm.display("Menubar Box", "Menubar");
         });
+
+        button9 = new Button();
+        button9.setText("StringProperty");
+        Person person = new Person();
+        person.firstNameProperty().addListener((v,oldValue, newValue)->{
+            label.setText("PersonFirstName: "+person.firstNameProperty()+ " changed from: "+
+            oldValue +" to: "+newValue);
+        });
+        button9.setOnAction(e -> {
+            person.setFirstName("SonNguyen");
+        });
+        label = new Label();
         VBox layout = new VBox(20);
         layout.getChildren().add(button);
         layout.getChildren().add(button1);
@@ -105,6 +120,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         layout.getChildren().add(button6);
         layout.getChildren().add(button7);
         layout.getChildren().add(button8);
+        layout.getChildren().add(button9);
+        layout.getChildren().add(label);
 
         StackPane layout2 = new StackPane();
         layout2.getChildren().add(button2);
